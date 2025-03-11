@@ -1,14 +1,13 @@
 import { ref, computed } from 'vue'
-import type { GameState, QuizData, Difficulty } from '../types/quiz'
+import type { GameState, QuizData, Difficulty, Question } from '../types/quiz'
 import quizData from '../data/data.json'
 
 export const useQuizGame = () => {
   const state = ref<GameState>({
     groups: [],
     currentGroupIndex: 0,
-    questions: [],
     totalQuestions: 0,
-    timePerQuestion: 30, // 30 seconds per question
+    timePerQuestion: 30,
     isGameStarted: false,
     isQuestionActive: false,
     selectedAnswer: null,
@@ -22,41 +21,62 @@ export const useQuizGame = () => {
   const currentQuestion = computed(() => {
     const group = currentGroup.value
     if (!group) return null
-    return state.value.questions[group.currentQuestion] || null
+    return group.questions[group.currentQuestion] || null
   })
 
-  const initializeGame = (groupCount: number, questionsPerDifficulty: number) => {
-    // Reset game state
-    state.value.groups = []
-    state.value.questions = []
-    state.value.currentGroupIndex = 0
-    state.value.isGameStarted = false
-    state.value.isQuestionActive = false
-    state.value.selectedAnswer = null
-
-    // Select questions from each difficulty level
+  const getRandomQuestions = (questionsPerDifficulty: number): Question[] => {
+    const selectedQuestions: Question[] = []
     const difficulties: Difficulty[] = ['easy', 'medium', 'hard']
+
     difficulties.forEach((difficulty) => {
       const questions = (quizData as QuizData)[difficulty]
-      const shuffled = [...questions].sort(() => Math.random() - 0.5)
-      state.value.questions.push(...shuffled.slice(0, questionsPerDifficulty))
+      const shuffled = [...questions].map((q) => ({ ...q, difficulty }))
+      selectedQuestions.push(
+        ...shuffled.sort(() => Math.random() - 0.5).slice(0, questionsPerDifficulty),
+      )
     })
 
-    // Shuffle all selected questions
-    state.value.questions = state.value.questions.sort(() => Math.random() - 0.5)
-    state.value.totalQuestions = state.value.questions.length
+    return selectedQuestions.sort(() => Math.random() - 0.5)
+  }
+
+  const initializeGame = (groupCount: number, questionsPerDifficulty: number) => {
+    resetGameState()
+    state.value.totalQuestions = questionsPerDifficulty * 3 // 3 difficulties
+  }
+
+  const resetGameState = () => {
+    if (timerInterval.value) {
+      clearInterval(timerInterval.value)
+      timerInterval.value = null
+    }
+
+    state.value = {
+      groups: [],
+      currentGroupIndex: 0,
+      totalQuestions: 0,
+      timePerQuestion: 30,
+      isGameStarted: false,
+      isQuestionActive: false,
+      selectedAnswer: null,
+      timer: 0,
+    }
   }
 
   const addGroup = (name: string) => {
+    const questionsPerDifficulty = Math.floor(state.value.totalQuestions / 3)
+    const groupQuestions = getRandomQuestions(questionsPerDifficulty)
+
     state.value.groups.push({
       name,
       score: 0,
       currentQuestion: 0,
+      questions: groupQuestions,
     })
   }
 
   const startGame = () => {
     state.value.isGameStarted = true
+    state.value.currentGroupIndex = 0
     startQuestion()
   }
 
@@ -88,16 +108,49 @@ export const useQuizGame = () => {
     if (timerInterval.value) {
       clearInterval(timerInterval.value)
     }
+
+    // Store the selected answer
     state.value.selectedAnswer = answer
     state.value.isQuestionActive = false
 
-    if (answer === currentQuestion.value.answer) {
-      // Calculate score based on remaining time (bonus points for quick answers)
+    // Debug logs
+    console.log('Selected answer:', answer)
+    console.log('Correct answer:', currentQuestion.value.answer)
+    console.log('Direct comparison:', answer === currentQuestion.value.answer)
+    console.log('Selected answer length:', answer.length)
+    console.log('Correct answer length:', currentQuestion.value.answer.length)
+
+    // Compare character by character
+    let mismatch = false
+    for (let i = 0; i < Math.max(answer.length, currentQuestion.value.answer.length); i++) {
+      if (answer[i] !== currentQuestion.value.answer[i]) {
+        console.log(`Mismatch at position ${i}:`, {
+          selected: answer[i],
+          correct: currentQuestion.value.answer[i],
+        })
+        mismatch = true
+      }
+    }
+
+    // Check if the answer is correct
+    const isCorrect = !mismatch && answer === currentQuestion.value.answer
+
+    if (isCorrect) {
+      console.log('✅ Answer is correct!')
       const timeBonus = Math.floor(state.value.timer / 2)
+      const difficultyBonus =
+        {
+          easy: 5,
+          medium: 10,
+          hard: 15,
+        }[currentQuestion.value.difficulty] || 0
+
       const group = state.value.groups[state.value.currentGroupIndex]
       if (group) {
-        group.score += 10 + timeBonus
+        group.score += 10 + timeBonus + difficultyBonus
       }
+    } else {
+      console.log('❌ Answer is wrong!')
     }
 
     nextTurn()
@@ -110,17 +163,24 @@ export const useQuizGame = () => {
     group.currentQuestion++
 
     if (group.currentQuestion >= state.value.totalQuestions) {
-      // Move to next group
       state.value.currentGroupIndex++
 
       if (state.value.currentGroupIndex >= state.value.groups.length) {
-        // Game over
         state.value.isGameStarted = false
         return
       }
+    } else {
+      state.value.currentGroupIndex =
+        (state.value.currentGroupIndex + 1) % state.value.groups.length
+
+      let nextGroup = state.value.groups[state.value.currentGroupIndex]
+      while (nextGroup && nextGroup.currentQuestion >= state.value.totalQuestions) {
+        state.value.currentGroupIndex =
+          (state.value.currentGroupIndex + 1) % state.value.groups.length
+        nextGroup = state.value.groups[state.value.currentGroupIndex]
+      }
     }
 
-    // Start next question after a short delay
     setTimeout(startQuestion, 2000)
   }
 
@@ -145,5 +205,6 @@ export const useQuizGame = () => {
     addGroup,
     startGame,
     submitAnswer,
+    resetGameState,
   }
 }

@@ -1,205 +1,271 @@
 <template>
   <q-page class="flex flex-center bg-green-1">
     <div class="container q-pa-md">
-      <!-- Game Setup -->
-      <div v-if="!state.isGameStarted && !isGameOver" class="setup-container">
-        <h2 class="text-h4 text-center text-green-9 q-mb-lg">🌍 Çevre Bilinci Yarışması 🌱</h2>
-
-        <template v-if="!setupComplete">
-          <div class="text-subtitle1 text-center q-mb-md">
-            Yarışmaya başlamak için lütfen grup sayısını ve soru sayısını belirleyin.
-          </div>
-          <div class="row justify-center q-gutter-md">
-            <q-input
-              v-model.number="groupCount"
-              type="number"
-              label="Grup Sayısı"
-              class="col-12 col-sm-6"
-              filled
-              :rules="[
-                (val) => val > 0 || 'Lütfen geçerli bir sayı girin',
-                (val) => val <= 10 || 'En fazla 10 grup oluşturabilirsiniz',
-              ]"
-              hint="En az 1, en fazla 10 grup"
-            >
-              <template v-slot:prepend>
-                <q-icon name="groups" />
-              </template>
-            </q-input>
-            <q-input
-              v-model.number="totalQuestions"
-              type="number"
-              label="Toplam Soru Sayısı"
-              class="col-12 col-sm-6"
-              filled
-              :rules="[
-                (val) => val > 0 || 'Lütfen geçerli bir sayı girin',
-                (val) => val <= 30 || 'En fazla 30 soru seçebilirsiniz',
-              ]"
-              hint="En az 3, en fazla 30 soru"
-            >
-              <template v-slot:prepend>
-                <q-icon name="quiz" />
-              </template>
-            </q-input>
-          </div>
-          <div class="row justify-center q-mt-lg">
-            <q-btn
-              color="green-9"
-              label="Grupları Oluştur"
-              icon="arrow_forward"
-              @click="setupGroups"
-              :disable="!isSetupValid"
-              size="lg"
-            />
-          </div>
-        </template>
-
-        <template v-else>
-          <div class="group-setup q-pa-md">
-            <h3 class="text-h5 text-center text-green-8 q-mb-md">Grup İsimlerini Girin</h3>
-            <div class="text-subtitle2 text-center q-mb-md">
-              {{ remainingGroups }} grup ismi daha girilmesi gerekiyor
+      <!-- Game States -->
+      <template v-if="state.isGameStarted">
+        <div class="game-container">
+          <div class="game-header q-mb-md">
+            <h3 class="text-h5 text-center text-green-9">
+              Sıradaki Grup: {{ currentGroup?.name || 'Bilinmiyor' }}
+            </h3>
+            <div class="text-center text-subtitle1">
+              Soru {{ (currentGroup?.currentQuestion || 0) + 1 }} / {{ state.totalQuestions }}
             </div>
-            <div class="row justify-center q-gutter-md">
-              <q-input
-                v-model="currentGroupName"
-                label="Grup İsmi"
-                class="col-12 col-sm-6"
-                filled
-                @keyup.enter="addGroupName"
-                :rules="[(val) => val.length > 0 || 'Grup ismi boş olamaz']"
-                hint="Enter tuşu ile veya + butonuna basarak ekleyebilirsiniz"
-              >
-                <template v-slot:prepend>
-                  <q-icon name="group" />
-                </template>
-                <template v-slot:append>
-                  <q-btn
-                    flat
-                    round
-                    color="green"
-                    icon="add"
-                    @click="addGroupName"
-                    :disable="!currentGroupName"
-                  />
-                </template>
-              </q-input>
+            <div class="timer text-center text-h6" :class="{ 'text-red': state.timer < 10 }">
+              Süre: {{ state.timer }} saniye
             </div>
+          </div>
 
-            <div class="groups-list q-mt-md">
-              <div class="text-h6 text-center q-mb-sm">Eklenen Gruplar</div>
-              <q-list bordered separator class="rounded-borders">
-                <q-item v-for="(group, index) in state.groups" :key="index">
-                  <q-item-section avatar>
-                    <q-icon name="group" color="green" />
-                  </q-item-section>
+          <q-card v-if="currentQuestion" class="question-card q-pa-md">
+            <q-card-section>
+              <div class="row items-center q-mb-md">
+                <q-badge
+                  :color="difficultyColor"
+                  class="difficulty-badge q-px-md q-py-sm"
+                  :label="difficultyText"
+                />
+              </div>
+              <div class="text-h6">{{ currentQuestion.question }}</div>
+            </q-card-section>
+
+            <q-card-section>
+              <q-list>
+                <q-item
+                  v-for="option in currentQuestion.options"
+                  :key="option"
+                  clickable
+                  v-ripple
+                  @click="handleAnswer(option)"
+                  :disable="!state.isQuestionActive"
+                  class="option-item q-my-sm"
+                  :class="{
+                    'correct-answer': !state.isQuestionActive && option === currentQuestion.answer,
+                    'wrong-answer':
+                      !state.isQuestionActive &&
+                      option === state.selectedAnswer &&
+                      option !== currentQuestion.answer,
+                  }"
+                >
                   <q-item-section>
-                    <q-item-label>{{ group.name }}</q-item-label>
+                    <q-item-label class="text-subtitle1">{{ option }}</q-item-label>
+                  </q-item-section>
+                  <q-item-section v-if="!state.isQuestionActive" side>
+                    <q-icon
+                      v-if="option === currentQuestion.answer"
+                      name="check_circle"
+                      color="positive"
+                      size="md"
+                    />
+                    <q-icon
+                      v-else-if="option === state.selectedAnswer"
+                      name="cancel"
+                      color="negative"
+                      size="md"
+                    />
                   </q-item-section>
                 </q-item>
               </q-list>
-            </div>
+            </q-card-section>
 
-            <div class="row justify-center q-mt-lg">
-              <q-btn
-                color="green-9"
-                label="Yarışmayı Başlat"
-                icon="play_arrow"
-                @click="startGame"
-                :disable="state.groups.length !== groupCount"
-                size="lg"
-              />
-            </div>
-          </div>
-        </template>
-      </div>
-
-      <!-- Game Play -->
-      <div v-else-if="state.isGameStarted" class="game-container">
-        <div class="game-header q-mb-md">
-          <h3 class="text-h5 text-center text-green-9">
-            Sıradaki Grup: {{ currentGroup?.name || 'Bilinmiyor' }}
-          </h3>
-          <div class="text-center text-subtitle1">
-            Soru {{ (currentGroup?.currentQuestion || 0) + 1 }} / {{ state.totalQuestions }}
-          </div>
-          <div class="timer text-center text-h6" :class="{ 'text-red': state.timer < 10 }">
-            Süre: {{ state.timer }} saniye
-          </div>
-        </div>
-
-        <q-card v-if="currentQuestion" class="question-card q-pa-md">
-          <q-card-section>
-            <div class="text-h6">{{ currentQuestion.question }}</div>
-          </q-card-section>
-
-          <q-card-section>
-            <q-list>
-              <q-item
-                v-for="option in currentQuestion.options"
-                :key="option"
-                clickable
-                v-ripple
-                @click="submitAnswer(option)"
-                :disable="!state.isQuestionActive"
-                class="q-my-sm"
+            <div
+              v-if="!state.isQuestionActive && currentQuestion"
+              class="feedback q-mt-md text-center"
+            >
+              <div
+                class="text-h6 q-pa-md rounded-borders"
+                :class="{
+                  'bg-green-2 text-positive': state.selectedAnswer === currentQuestion.answer,
+                  'bg-red-2 text-negative': state.selectedAnswer !== currentQuestion.answer,
+                }"
               >
+                <template v-if="state.selectedAnswer === currentQuestion.answer">
+                  <div class="text-h5">🎉 Doğru! 🎉</div>
+                  <div class="text-subtitle1 q-mt-sm text-green-10">
+                    +10 puan + Zaman bonusu: {{ Math.floor(state.timer / 2) }} puan
+                  </div>
+                </template>
+                <template v-else>
+                  <div class="text-h5">😔 Yanlış!</div>
+                  <div class="text-subtitle1 q-mt-sm text-red-10">
+                    Doğru cevap: {{ currentQuestion.answer }}
+                  </div>
+                </template>
+              </div>
+            </div>
+          </q-card>
+        </div>
+      </template>
+
+      <template v-else-if="isGameOver">
+        <div class="game-over-container text-center">
+          <h2 class="text-h4 text-green-9">Oyun Bitti! 🎮</h2>
+
+          <div class="winners q-mt-lg">
+            <h3 class="text-h5">Kazananlar:</h3>
+            <div v-for="winner in winners" :key="winner.name" class="text-h6 text-green-8">
+              {{ winner.name }} - {{ winner.score }} puan
+            </div>
+          </div>
+
+          <div class="scores q-mt-lg">
+            <h3 class="text-h5">Tüm Skorlar:</h3>
+            <q-list bordered separator class="rounded-borders">
+              <q-item v-for="group in state.groups" :key="group.name">
                 <q-item-section>
-                  <q-item-label class="text-subtitle1">{{ option }}</q-item-label>
+                  <q-item-label>{{ group.name }}</q-item-label>
+                </q-item-section>
+                <q-item-section side>
+                  <q-item-label>{{ group.score }} puan</q-item-label>
                 </q-item-section>
               </q-item>
             </q-list>
+          </div>
+
+          <div class="q-mt-lg">
+            <q-btn color="green-9" label="Yeni Oyun" icon="replay" @click="resetGame" size="lg" />
+          </div>
+        </div>
+      </template>
+
+      <template v-else>
+        <div class="setup-container">
+          <h2 class="text-h4 text-center text-green-9 q-mb-lg">🌍 Çevre Bilinci Yarışması 🌱</h2>
+
+          <template v-if="!setupComplete">
+            <div class="text-subtitle1 text-center q-mb-md">
+              Yarışmaya başlamak için lütfen grup sayısını ve soru sayısını belirleyin.
+            </div>
+            <div class="row justify-center q-gutter-md">
+              <q-input
+                v-model.number="groupCount"
+                type="number"
+                label="Grup Sayısı"
+                class="col-12 col-sm-6"
+                filled
+                :rules="[
+                  (val) => val > 0 || 'Lütfen geçerli bir sayı girin',
+                  (val) => val <= 10 || 'En fazla 10 grup oluşturabilirsiniz',
+                ]"
+                hint="En az 1, en fazla 10 grup"
+              >
+                <template v-slot:prepend>
+                  <q-icon name="groups" />
+                </template>
+              </q-input>
+              <q-input
+                v-model.number="totalQuestions"
+                type="number"
+                label="Toplam Soru Sayısı"
+                class="col-12 col-sm-6"
+                filled
+                :rules="[
+                  (val) => val > 0 || 'Lütfen geçerli bir sayı girin',
+                  (val) => val <= 30 || 'En fazla 30 soru seçebilirsiniz',
+                ]"
+                hint="En az 3, en fazla 30 soru"
+              >
+                <template v-slot:prepend>
+                  <q-icon name="quiz" />
+                </template>
+              </q-input>
+            </div>
+            <div class="row justify-center q-mt-lg">
+              <q-btn
+                color="green-9"
+                label="Grupları Oluştur"
+                icon="arrow_forward"
+                @click="setupGroups"
+                :disable="!isSetupValid"
+                size="lg"
+              />
+            </div>
+          </template>
+
+          <template v-else>
+            <div class="group-setup q-pa-md">
+              <h3 class="text-h5 text-center text-green-8 q-mb-md">Grup İsimlerini Girin</h3>
+              <div class="text-subtitle2 text-center q-mb-md">
+                {{ remainingGroups }} grup ismi daha girilmesi gerekiyor
+              </div>
+              <div class="row justify-center q-gutter-md">
+                <q-input
+                  v-model="currentGroupName"
+                  label="Grup İsmi"
+                  class="col-12 col-sm-6"
+                  filled
+                  @keyup.enter="addGroupName"
+                  hint="Enter tuşu ile veya + butonuna basarak ekleyebilirsiniz"
+                >
+                  <template v-slot:prepend>
+                    <q-icon name="group" />
+                  </template>
+                  <template v-slot:append>
+                    <q-btn
+                      flat
+                      round
+                      color="green"
+                      icon="add"
+                      @click="addGroupName"
+                      :disable="!currentGroupName"
+                    />
+                  </template>
+                </q-input>
+              </div>
+
+              <div class="groups-list q-mt-md">
+                <div class="text-h6 text-center q-mb-sm">Eklenen Gruplar</div>
+                <q-list bordered separator class="rounded-borders">
+                  <q-item v-for="(group, index) in state.groups" :key="index">
+                    <q-item-section avatar>
+                      <q-icon name="group" color="green" />
+                    </q-item-section>
+                    <q-item-section>
+                      <q-item-label>{{ group.name }}</q-item-label>
+                    </q-item-section>
+                  </q-item>
+                </q-list>
+              </div>
+
+              <div class="row justify-center q-mt-lg">
+                <q-btn
+                  color="green-9"
+                  label="Yarışmayı Başlat"
+                  icon="play_arrow"
+                  @click="startGame"
+                  :disable="state.groups.length !== groupCount"
+                  size="lg"
+                />
+              </div>
+            </div>
+          </template>
+        </div>
+      </template>
+
+      <!-- Wrong Answer Overlay -->
+      <q-dialog
+        v-model="showWrongAnswerOverlay"
+        persistent
+        transition-show="scale"
+        transition-hide="scale"
+      >
+        <q-card class="wrong-answer-overlay text-center">
+          <q-card-section class="column items-center q-pa-lg">
+            <div class="wrong-icon">✖</div>
+            <div class="text-h4 text-negative q-mt-md">Yanlış Cevap!</div>
+            <div class="text-subtitle1 q-mt-md text-weight-medium">Doğru cevap:</div>
+            <div class="text-h6 text-primary q-mt-sm">
+              {{ currentQuestion?.answer }}
+            </div>
           </q-card-section>
         </q-card>
-
-        <div v-if="state.selectedAnswer && currentQuestion" class="feedback q-mt-md text-center">
-          <div
-            :class="
-              state.selectedAnswer === currentQuestion.answer ? 'text-positive' : 'text-negative'
-            "
-          >
-            {{ state.selectedAnswer === currentQuestion.answer ? 'Doğru! 🎉' : 'Yanlış 😔' }}
-          </div>
-        </div>
-      </div>
-
-      <!-- Game Over -->
-      <div v-else class="game-over-container text-center">
-        <h2 class="text-h4 text-green-9">Oyun Bitti! 🎮</h2>
-
-        <div class="winners q-mt-lg">
-          <h3 class="text-h5">Kazananlar:</h3>
-          <div v-for="winner in winners" :key="winner.name" class="text-h6 text-green-8">
-            {{ winner.name }} - {{ winner.score }} puan
-          </div>
-        </div>
-
-        <div class="scores q-mt-lg">
-          <h3 class="text-h5">Tüm Skorlar:</h3>
-          <q-list bordered separator class="rounded-borders">
-            <q-item v-for="group in state.groups" :key="group.name">
-              <q-item-section>
-                <q-item-label>{{ group.name }}</q-item-label>
-              </q-item-section>
-              <q-item-section side>
-                <q-item-label>{{ group.score }} puan</q-item-label>
-              </q-item-section>
-            </q-item>
-          </q-list>
-        </div>
-
-        <div class="q-mt-lg">
-          <q-btn color="green-9" label="Yeni Oyun" icon="replay" @click="resetGame" size="lg" />
-        </div>
-      </div>
+      </q-dialog>
     </div>
   </q-page>
 </template>
 
 <script setup lang="ts">
 import { ref, computed } from 'vue'
-import { useQuizGame } from '../composables/useQuizGame'
+import { useQuizGame } from 'src/composables/useQuizGame'
 
 const {
   state,
@@ -207,16 +273,21 @@ const {
   currentQuestion,
   isGameOver,
   winners,
-  initializeGame,
-  addGroup,
+  addGroup: addGroupToGame,
   startGame: startGamePlay,
   submitAnswer,
+  resetGameState,
+  initializeGame,
 } = useQuizGame()
 
-const groupCount = ref(2)
-const totalQuestions = ref(9)
 const setupComplete = ref(false)
 const currentGroupName = ref('')
+const groupCount = ref(2)
+const totalQuestions = ref(9)
+const showWrongAnswerOverlay = ref(false)
+
+// Initialize game with 3 questions per difficulty level (9 total questions)
+initializeGame(2, 3)
 
 const isSetupValid = computed(() => {
   return (
@@ -243,7 +314,7 @@ const setupGroups = () => {
 const addGroupName = () => {
   if (!currentGroupName.value || state.value.groups.length >= groupCount.value) return
 
-  addGroup(currentGroupName.value)
+  addGroupToGame(currentGroupName.value)
   currentGroupName.value = ''
 }
 
@@ -253,10 +324,48 @@ const startGame = () => {
 }
 
 const resetGame = () => {
+  resetGameState()
   setupComplete.value = false
   groupCount.value = 2
   totalQuestions.value = 9
   currentGroupName.value = ''
+}
+
+const difficultyColor = computed(() => {
+  if (!currentQuestion.value) return 'grey'
+
+  switch (currentQuestion.value.difficulty) {
+    case 'easy':
+      return 'positive'
+    case 'medium':
+      return 'warning'
+    case 'hard':
+      return 'negative'
+    default:
+      return 'grey'
+  }
+})
+
+const difficultyText = computed(() => {
+  if (!currentQuestion.value) return ''
+
+  const difficultyMap = {
+    easy: 'Kolay',
+    medium: 'Orta',
+    hard: 'Zor',
+  }
+
+  return difficultyMap[currentQuestion.value.difficulty] || ''
+})
+
+const handleAnswer = (answer: string) => {
+  submitAnswer(answer)
+  if (currentQuestion.value && answer !== currentQuestion.value.answer) {
+    showWrongAnswerOverlay.value = true
+    setTimeout(() => {
+      showWrongAnswerOverlay.value = false
+    }, 1500) // Hide after 1.5 seconds
+  }
 }
 </script>
 
@@ -279,13 +388,37 @@ const resetGame = () => {
   background: #f0f8f0;
   border-left: 4px solid #2e7d32;
 
-  .q-item {
+  .difficulty-badge {
+    font-size: 1rem;
+    font-weight: 500;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+  }
+
+  .option-item {
     border-radius: 8px;
     margin: 8px 0;
     transition: all 0.3s ease;
+    border: 2px solid transparent;
 
     &:hover {
       background: #e8f5e9;
+    }
+
+    &.correct-answer {
+      background: #c8e6c9 !important;
+      border-color: #4caf50;
+      color: #1b5e20;
+      font-weight: 500;
+      box-shadow: 0 2px 4px rgba(76, 175, 80, 0.2);
+    }
+
+    &.wrong-answer {
+      background: #ffcdd2 !important;
+      border-color: #f44336;
+      color: #b71c1c;
+      font-weight: 500;
+      box-shadow: 0 2px 4px rgba(244, 67, 54, 0.2);
     }
   }
 }
@@ -310,5 +443,48 @@ const resetGame = () => {
   max-height: 300px;
   overflow-y: auto;
   margin: 1rem 0;
+}
+
+.wrong-answer-overlay {
+  background: rgba(255, 255, 255, 0.98);
+  border: none;
+  border-radius: 16px;
+  min-width: 320px;
+  box-shadow: 0 4px 20px rgba(244, 67, 54, 0.25);
+
+  .wrong-icon {
+    font-size: 100px;
+    color: #f44336;
+    animation: shake 0.5s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+    text-shadow: 0 4px 8px rgba(244, 67, 54, 0.3);
+    margin: 10px 0;
+  }
+
+  .q-card-section {
+    background: linear-gradient(to bottom, rgba(244, 67, 54, 0.05), transparent);
+  }
+}
+
+@keyframes shake {
+  10%,
+  90% {
+    transform: translate3d(-2px, 0, 0);
+  }
+
+  20%,
+  80% {
+    transform: translate3d(4px, 0, 0);
+  }
+
+  30%,
+  50%,
+  70% {
+    transform: translate3d(-6px, 0, 0);
+  }
+
+  40%,
+  60% {
+    transform: translate3d(6px, 0, 0);
+  }
 }
 </style>

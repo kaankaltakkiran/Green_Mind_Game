@@ -1,0 +1,1 @@
+consolları sil
