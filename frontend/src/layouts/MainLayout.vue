@@ -3,8 +3,6 @@
     <q-header elevated>
       <q-toolbar>
         <q-toolbar-title> Green Mind Quiz </q-toolbar-title>
-
-        <div>Quasar v{{ $q.version }}</div>
       </q-toolbar>
     </q-header>
 
