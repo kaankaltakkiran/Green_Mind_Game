@@ -1,11 +1,11 @@
 <template>
-  <q-page class="flex flex-center bg-green-1">
+  <q-page class="flex flex-center bg-gradient">
     <div class="container q-pa-md">
       <!-- Game States -->
       <template v-if="state.isGameStarted">
-        <div class="game-container">
+        <div class="game-container animate-fade-in">
           <div class="game-header q-mb-md">
-            <h3 class="text-h5 text-center text-green-9">
+            <h3 class="text-h5 text-center text-green-9 animate-pulse">
               Sıradaki Grup: {{ currentGroup?.name || 'Bilinmiyor' }}
             </h3>
             <div class="text-center text-subtitle1">
@@ -20,7 +20,7 @@
             </div>
           </div>
 
-          <q-card v-if="currentQuestion" class="question-card q-pa-md">
+          <q-card v-if="currentQuestion" class="question-card q-pa-md animate-slide-up">
             <q-card-section>
               <div class="row items-center q-mb-md">
                 <q-badge
@@ -35,13 +35,14 @@
             <q-card-section>
               <q-list>
                 <q-item
-                  v-for="option in currentQuestion.options"
+                  v-for="(option, index) in currentQuestion.options"
                   :key="option"
                   clickable
                   v-ripple
                   @click="handleAnswer(option)"
                   :disable="!state.isQuestionActive || state.isTransitioning"
-                  class="option-item q-my-sm"
+                  class="option-item q-my-sm animate-fade-in"
+                  :style="{ animationDelay: index * 0.1 + 's' }"
                   :class="{
                     'correct-answer':
                       !state.isQuestionActive &&
@@ -63,6 +64,7 @@
                       name="check_circle"
                       color="positive"
                       size="md"
+                      class="animate-bounce"
                     />
                     <q-icon
                       v-else-if="
@@ -71,6 +73,7 @@
                       name="cancel"
                       color="negative"
                       size="md"
+                      class="animate-shake"
                     />
                   </q-item-section>
                 </q-item>
@@ -84,7 +87,7 @@
                 currentQuestion &&
                 state.selectedAnswer !== null
               "
-              class="feedback q-mt-md text-center"
+              class="feedback q-mt-md text-center animate-fade-in"
             >
               <div
                 class="text-h6 q-pa-md rounded-borders"
@@ -110,20 +113,30 @@
       </template>
 
       <template v-else-if="isGameOver">
-        <div class="game-over-container text-center">
-          <h2 class="text-h4 text-green-9">Oyun Bitti! 🎮</h2>
+        <div class="game-over-container text-center animate-fade-in">
+          <h2 class="text-h4 text-green-9 animate-pulse">Oyun Bitti! 🎮</h2>
 
-          <div class="winners q-mt-lg">
+          <div class="winners q-mt-lg animate-slide-up">
             <h3 class="text-h5">Kazananlar:</h3>
-            <div v-for="winner in winners" :key="winner.name" class="text-h6 text-green-8">
+            <div
+              v-for="(winner, index) in winners"
+              :key="winner.name"
+              class="text-h6 text-green-8 winner-item"
+              :style="{ animationDelay: index * 0.2 + 's' }"
+            >
               {{ winner.name }} - {{ winner.score }} puan
             </div>
           </div>
 
-          <div class="scores q-mt-lg">
+          <div class="scores q-mt-lg animate-slide-up" style="animation-delay: 0.3s">
             <h3 class="text-h5">Tüm Skorlar:</h3>
             <q-list bordered separator class="rounded-borders">
-              <q-item v-for="group in state.groups" :key="group.name">
+              <q-item
+                v-for="(group, index) in state.groups"
+                :key="group.name"
+                class="score-item"
+                :style="{ animationDelay: index * 0.1 + 0.5 + 's' }"
+              >
                 <q-item-section>
                   <q-item-label>{{ group.name }}</q-item-label>
                 </q-item-section>
@@ -134,26 +147,35 @@
             </q-list>
           </div>
 
-          <div class="q-mt-lg">
-            <q-btn color="green-9" label="Yeni Oyun" icon="replay" @click="resetGame" size="lg" />
+          <div class="q-mt-lg animate-bounce" style="animation-delay: 0.8s">
+            <q-btn
+              color="green-9"
+              label="Yeni Oyun"
+              icon="replay"
+              @click="resetGame"
+              size="lg"
+              class="glossy-button"
+            />
           </div>
         </div>
       </template>
 
       <template v-else>
-        <div class="setup-container">
-          <h2 class="text-h4 text-center text-green-9 q-mb-lg">🌍 Çevre Bilinci Yarışması 🌱</h2>
+        <div class="setup-container animate-fade-in">
+          <h2 class="text-h4 text-center text-green-9 q-mb-lg animate-pulse">
+            🌍 Çevre Bilinci Yarışması 🌱
+          </h2>
 
           <template v-if="!setupComplete">
             <div class="text-subtitle1 text-center q-mb-md">
               Yarışmaya başlamak için lütfen grup sayısını ve soru sayısını belirleyin.
             </div>
-            <div class="row justify-center q-gutter-md">
+            <div class="row justify-center q-gutter-md animate-slide-up">
               <q-input
                 v-model.number="groupCount"
                 type="number"
                 label="Grup Sayısı"
-                class="col-12 col-sm-6"
+                class="col-12 col-sm-6 modern-input"
                 filled
                 :rules="[
                   (val) => val > 0 || 'Lütfen geçerli bir sayı girin',
@@ -169,7 +191,7 @@
                 v-model.number="totalQuestions"
                 type="number"
                 label="Toplam Soru Sayısı"
-                class="col-12 col-sm-6"
+                class="col-12 col-sm-6 modern-input"
                 filled
                 :rules="[
                   (val) => val > 0 || 'Lütfen geçerli bir sayı girin',
@@ -182,7 +204,7 @@
                 </template>
               </q-input>
             </div>
-            <div class="row justify-center q-mt-lg">
+            <div class="row justify-center q-mt-lg animate-slide-up" style="animation-delay: 0.2s">
               <q-btn
                 color="green-9"
                 label="Grupları Oluştur"
@@ -190,21 +212,22 @@
                 @click="setupGroups"
                 :disable="!isSetupValid"
                 size="lg"
+                class="glossy-button"
               />
             </div>
           </template>
 
           <template v-else>
-            <div class="group-setup q-pa-md">
+            <div class="group-setup q-pa-md animate-fade-in">
               <h3 class="text-h5 text-center text-green-8 q-mb-md">Grup İsimlerini Girin</h3>
               <div class="text-subtitle2 text-center q-mb-md">
                 {{ remainingGroups }} grup ismi daha girilmesi gerekiyor
               </div>
-              <div class="row justify-center q-gutter-md">
+              <div class="row justify-center q-gutter-md animate-slide-up">
                 <q-input
                   v-model="currentGroupName"
                   label="Grup İsmi"
-                  class="col-12 col-sm-6"
+                  class="col-12 col-sm-6 modern-input"
                   filled
                   @keyup.enter="addGroupName"
                   hint="Enter tuşu ile veya + butonuna basarak ekleyebilirsiniz"
@@ -220,17 +243,23 @@
                       icon="add"
                       @click="addGroupName"
                       :disable="!currentGroupName"
+                      class="animate-pulse"
                     />
                   </template>
                 </q-input>
               </div>
 
-              <div class="groups-list q-mt-md">
+              <div class="groups-list q-mt-md animate-slide-up" style="animation-delay: 0.2s">
                 <div class="text-h6 text-center q-mb-sm">Eklenen Gruplar</div>
                 <q-list bordered separator class="rounded-borders">
-                  <q-item v-for="(group, index) in state.groups" :key="index">
+                  <q-item
+                    v-for="(group, index) in state.groups"
+                    :key="index"
+                    class="group-item"
+                    :style="{ animationDelay: index * 0.1 + 's' }"
+                  >
                     <q-item-section avatar>
-                      <q-icon name="group" color="green" />
+                      <q-icon name="group" color="green" class="animate-pulse" />
                     </q-item-section>
                     <q-item-section>
                       <q-item-label>{{ group.name }}</q-item-label>
@@ -239,7 +268,10 @@
                 </q-list>
               </div>
 
-              <div class="row justify-center q-mt-lg">
+              <div
+                class="row justify-center q-mt-lg animate-slide-up"
+                style="animation-delay: 0.4s"
+              >
                 <q-btn
                   color="green-9"
                   label="Yarışmayı Başlat"
@@ -247,6 +279,7 @@
                   @click="startGame"
                   :disable="state.groups.length !== groupCount"
                   size="lg"
+                  class="glossy-button"
                 />
               </div>
             </div>
@@ -424,51 +457,84 @@ const handleAnswer = (answer: string) => {
   width: 100%;
 }
 
+.bg-gradient {
+  background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+}
+
 .setup-container,
 .game-container,
 .game-over-container {
   background: white;
-  border-radius: 8px;
+  border-radius: 16px;
   padding: 2rem;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+
+  &:hover {
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.15);
+    transform: translateY(-2px);
+  }
 }
 
 .question-card {
-  background: #f0f8f0;
+  background: linear-gradient(to right, #f0f8f0, #e8f5e9);
   border-left: 4px solid #2e7d32;
+  border-radius: 12px;
+  overflow: hidden;
+  transition: all 0.3s ease;
 
   .difficulty-badge {
     font-size: 1rem;
     font-weight: 500;
-    border-radius: 4px;
+    border-radius: 8px;
     margin-bottom: 1rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   }
 
   .option-item {
-    border-radius: 8px;
-    margin: 8px 0;
+    border-radius: 12px;
+    margin: 12px 0;
     transition: all 0.3s ease;
     border: 2px solid transparent;
     position: relative;
+    overflow: hidden;
+
+    &:before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.1), transparent);
+      transform: translateX(-100%);
+      transition: transform 0.6s ease;
+    }
 
     &:hover {
       background: #e8f5e9;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+      &:before {
+        transform: translateX(100%);
+      }
     }
 
     &.correct-answer {
-      background: #c8e6c9 !important;
+      background: linear-gradient(to right, #c8e6c9, #a5d6a7) !important;
       border-color: #4caf50;
       color: #1b5e20;
       font-weight: 500;
-      box-shadow: 0 2px 4px rgba(76, 175, 80, 0.2);
+      box-shadow: 0 4px 8px rgba(76, 175, 80, 0.3);
     }
 
     &.wrong-answer {
-      background: #ffcdd2 !important;
+      background: linear-gradient(to right, #ffcdd2, #ef9a9a) !important;
       border-color: #f44336;
       color: #b71c1c;
       font-weight: 500;
-      box-shadow: 0 2px 4px rgba(244, 67, 54, 0.2);
+      box-shadow: 0 4px 8px rgba(244, 67, 54, 0.3);
     }
   }
 }
@@ -477,9 +543,11 @@ const handleAnswer = (answer: string) => {
   font-size: 1.5rem;
   font-weight: bold;
   margin: 1rem 0;
+  transition: color 0.3s ease;
 
   &.text-red {
     color: #f44336;
+    animation: pulse 1s infinite;
   }
 }
 
@@ -493,14 +561,17 @@ const handleAnswer = (answer: string) => {
   max-height: 300px;
   overflow-y: auto;
   margin: 1rem 0;
+  border-radius: 12px;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
 .wrong-answer-overlay {
   background: rgba(255, 255, 255, 0.98);
   border: none;
-  border-radius: 16px;
+  border-radius: 20px;
   min-width: 320px;
-  box-shadow: 0 4px 20px rgba(244, 67, 54, 0.25);
+  box-shadow: 0 8px 30px rgba(244, 67, 54, 0.3);
+  overflow: hidden;
 
   .wrong-icon {
     font-size: 100px;
@@ -518,9 +589,10 @@ const handleAnswer = (answer: string) => {
 .correct-answer-overlay {
   background: rgba(255, 255, 255, 0.98);
   border: none;
-  border-radius: 16px;
+  border-radius: 20px;
   min-width: 320px;
-  box-shadow: 0 4px 20px rgba(76, 175, 80, 0.25);
+  box-shadow: 0 8px 30px rgba(76, 175, 80, 0.3);
+  overflow: hidden;
 
   .correct-icon {
     font-size: 100px;
@@ -532,6 +604,114 @@ const handleAnswer = (answer: string) => {
 
   .q-card-section {
     background: linear-gradient(180deg, rgba(76, 175, 80, 0.1) 0%, rgba(76, 175, 80, 0) 100%);
+  }
+}
+
+.modern-input {
+  border-radius: 12px;
+  transition: all 0.3s ease;
+
+  &:focus-within {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+}
+
+.glossy-button {
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+
+  &:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transform: translateX(-100%);
+    transition: transform 0.6s ease;
+  }
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+
+    &:before {
+      transform: translateX(100%);
+    }
+  }
+}
+
+.group-item,
+.score-item,
+.winner-item {
+  animation: fadeSlideIn 0.5s ease forwards;
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+/* Animation classes */
+.animate-fade-in {
+  animation: fadeIn 0.5s ease forwards;
+}
+
+.animate-slide-up {
+  animation: slideUp 0.5s ease forwards;
+}
+
+.animate-pulse {
+  animation: pulse 2s infinite;
+}
+
+.animate-bounce {
+  animation: bounce 1s infinite;
+}
+
+.animate-shake {
+  animation: shake 0.5s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+}
+
+/* Animation keyframes */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes fadeSlideIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
@@ -567,10 +747,10 @@ const handleAnswer = (answer: string) => {
     transform: translateY(0);
   }
   40% {
-    transform: translateY(-30px);
+    transform: translateY(-15px);
   }
   60% {
-    transform: translateY(-15px);
+    transform: translateY(-7px);
   }
 }
 </style>
