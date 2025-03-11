@@ -1,0 +1,93 @@
+{
+  "easy": [
+    {
+      "question": "Sera etkisi nedir?",
+      "options": [
+        "A) Sera gazlarının ısıyı hapsederek Dünya'nın ısınmasına neden olması",
+        "B) Güneş ışınlarının yansıması",
+        "C) Yağmur oluşumu",
+        "D) Rüzgarın hızlanması"
+      ],
+      "answer": "A) Sera gazlarının ısıyı hapsederek Dünya'nın ısınmasına neden olması"
+    },
+    {
+      "question": "Hangi gaz küresel ısınmanın temel sebeplerinden biridir?",
+      "options": ["A) Oksijen", "B) Karbondioksit", "C) Azot", "D) Hidrojen"],
+      "answer": "B) Karbondioksit"
+    },
+    {
+      "question": "Yenilenebilir enerji nedir?",
+      "options": [
+        "A) Tükenebilen enerji kaynağı",
+        "B) Doğal kaynakların sürekli yenilendiği enerji",
+        "C) Sınırsız enerji",
+        "D) Fosil yakıt enerjisi"
+      ],
+      "answer": "B) Doğal kaynakların sürekli yenilendiği enerji"
+    }
+  ],
+  "medium": [
+    {
+      "question": "Ormansızlaşma iklim değişikliğine nasıl katkıda bulunur?",
+      "options": [
+        "A) Karbon emilimini artırır",
+        "B) Depolanmış karbonun atmosfere salınmasına neden olur",
+        "C) Hava kirliliğini azaltır",
+        "D) Sıcaklıkları düşürür"
+      ],
+      "answer": "B) Depolanmış karbonun atmosfere salınmasına neden olur"
+    },
+    {
+      "question": "Sulak alanların ekosistemdeki rolü nedir?",
+      "options": [
+        "A) Sadece su deposu olmak",
+        "B) Doğal su filtresi görevi görüp habitat sağlamaktır",
+        "C) Sel riskini artırmak",
+        "D) Toprak erozyonuna yol açmak"
+      ],
+      "answer": "B) Doğal su filtresi görevi görüp habitat sağlamaktır"
+    },
+    {
+      "question": "Asit yağmurunun başlıca nedeni nedir?",
+      "options": [
+        "A) Karbon monoksit emisyonları",
+        "B) Kükürt dioksit ve azot oksitlerinin atmosfere salınması",
+        "C) Metan emisyonları",
+        "D) Ozon tabakasının incelmesi"
+      ],
+      "answer": "B) Kükürt dioksit ve azot oksitlerinin atmosfere salınması"
+    }
+  ],
+  "hard": [
+    {
+      "question": "Albedo etkisi nedir ve Dünya'nın iklimini nasıl etkiler?",
+      "options": [
+        "A) Yüzeyin ısıyı emmesi",
+        "B) Yüzeyin ışığı yansıtma oranının iklimi etkilemesi",
+        "C) Bitkilerin fotosentez oranını artırması",
+        "D) Deniz seviyesini düşürmesi"
+      ],
+      "answer": "B) Yüzeyin ışığı yansıtma oranının iklimi etkilemesi"
+    },
+    {
+      "question": "Pozitif geri besleme döngüleri küresel ısınmayı nasıl şiddetlendirir?",
+      "options": [
+        "A) Isınmayı yavaşlatır",
+        "B) İlk değişiklikleri artırarak daha fazla ısınmaya neden olur",
+        "C) Hiçbir etkisi yoktur",
+        "D) İklimi stabilize eder"
+      ],
+      "answer": "B) İlk değişiklikleri artırarak daha fazla ısınmaya neden olur"
+    },
+    {
+      "question": "Kara karbonun (black carbon) iklim değişikliğindeki rolü nedir?",
+      "options": [
+        "A) Atmosferi soğutur",
+        "B) Güneş ışığını absorbe ederek ısınmaya yol açar",
+        "C) Bitki büyümesini durdurur",
+        "D) Sadece endüstriyel atıklarda bulunur"
+      ],
+      "answer": "B) Güneş ışığını absorbe ederek ısınmaya yol açar"
+    }
+  ]
+}

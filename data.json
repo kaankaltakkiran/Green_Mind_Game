@@ -1,0 +1,598 @@
+{
+  "easy": [
+    {
+      "question": "Sera etkisi nedir?",
+      "options": [
+        "A) Sera gazlarının ısıyı hapsederek Dünya'nın ısınmasına neden olması",
+        "B) Güneş ışınlarının yansıması",
+        "C) Yağmur oluşumu",
+        "D) Rüzgarın hızlanması"
+      ],
+      "answer": "A) Sera gazlarının ısıyı hapsederek Dünya'nın ısınmasına neden olması"
+    },
+    {
+      "question": "Hangi gaz küresel ısınmanın temel sebeplerinden biridir?",
+      "options": ["A) Oksijen", "B) Karbondioksit", "C) Azot", "D) Hidrojen"],
+      "answer": "B) Karbondioksit"
+    },
+    {
+      "question": "Yenilenebilir enerji nedir?",
+      "options": [
+        "A) Tükenebilen enerji kaynağı",
+        "B) Doğal kaynakların sürekli yenilendiği enerji",
+        "C) Sınırsız enerji",
+        "D) Fosil yakıt enerjisi"
+      ],
+      "answer": "B) Doğal kaynakların sürekli yenilendiği enerji"
+    },
+    {
+      "question": "Hangi enerji kaynağı yenilenebilir enerji örneğidir?",
+      "options": ["A) Kömür", "B) Rüzgar", "C) Doğal gaz", "D) Petrol"],
+      "answer": "B) Rüzgar"
+    },
+    {
+      "question": "Ormansızlaşma nedir?",
+      "options": [
+        "A) Ağaç dikme",
+        "B) Ağaç kesme ve ormanların yok edilmesi",
+        "C) Geri dönüşüm yapma",
+        "D) Toprak erozyonu"
+      ],
+      "answer": "B) Ağaç kesme ve ormanların yok edilmesi"
+    },
+    {
+      "question": "Geri dönüşümün temel amacı nedir?",
+      "options": [
+        "A) Enerji tüketimini artırmak",
+        "B) Atık miktarını azaltmak ve kaynakları korumak",
+        "C) Hava kirliliğini artırmak",
+        "D) Su kaynaklarını tüketmek"
+      ],
+      "answer": "B) Atık miktarını azaltmak ve kaynakları korumak"
+    },
+    {
+      "question": "Küresel ısınmanın başlıca nedenlerinden biri hangisidir?",
+      "options": [
+        "A) Ağaçlandırma",
+        "B) Fosil yakıt kullanımı",
+        "C) Güneş enerjisi kullanımı",
+        "D) Geri dönüşüm"
+      ],
+      "answer": "B) Fosil yakıt kullanımı"
+    },
+    {
+      "question": "Kutup buzlarının erimesinin sonucu nedir?",
+      "options": [
+        "A) Deniz seviyelerinin yükselmesi",
+        "B) Hava kirliliğinin azalması",
+        "C) Daha soğuk iklim koşulları",
+        "D) Artan orman alanı"
+      ],
+      "answer": "A) Deniz seviyelerinin yükselmesi"
+    },
+    {
+      "question": "Karbon ayak izi neyi ifade eder?",
+      "options": [
+        "A) Bir kişinin yaktığı karbon miktarını",
+        "B) İnsan faaliyetlerinin atmosfere saldığı karbondioksit miktarını",
+        "C) Toprağın karbon içeriğini",
+        "D) Endüstriyel üretim oranını"
+      ],
+      "answer": "B) İnsan faaliyetlerinin atmosfere saldığı karbondioksit miktarını"
+    },
+    {
+      "question": "Su tasarrufu yapmak neden önemlidir?",
+      "options": [
+        "A) Su kaynaklarını korumak",
+        "B) Enerji tüketimini artırmak",
+        "C) Su fiyatlarını yükseltmek",
+        "D) Tarım alanlarını genişletmek"
+      ],
+      "answer": "A) Su kaynaklarını korumak"
+    },
+    {
+      "question": "Sürdürülebilir kalkınma ne demektir?",
+      "options": [
+        "A) Şimdiki ihtiyaçları karşılarken gelecek nesilleri düşünmemek",
+        "B) Gelecek nesilleri riske atmadan mevcut ihtiyaçları karşılamak",
+        "C) Hızlı sanayileşme",
+        "D) Aşırı tüketim"
+      ],
+      "answer": "B) Gelecek nesilleri riske atmadan mevcut ihtiyaçları karşılamak"
+    },
+    {
+      "question": "Hangi enerji kaynağı tükenebilir?",
+      "options": [
+        "A) Güneş enerjisi",
+        "B) Rüzgar enerjisi",
+        "C) Petrol",
+        "D) Jeotermal enerji"
+      ],
+      "answer": "C) Petrol"
+    },
+    {
+      "question": "Güneş panellerinin temel işlevi nedir?",
+      "options": [
+        "A) Güneş ışığını ısıya dönüştürmek",
+        "B) Güneş ışığını elektriğe dönüştürmek",
+        "C) Güneş ışığını depolamak",
+        "D) Güneş ışığını yansıtmak"
+      ],
+      "answer": "B) Güneş ışığını elektriğe dönüştürmek"
+    },
+    {
+      "question": "Biyoçeşitlilik nedir?",
+      "options": [
+        "A) Sadece bitki çeşitliliği",
+        "B) Canlı çeşitliliği",
+        "C) Hava kirliliği",
+        "D) Su kirliliği"
+      ],
+      "answer": "B) Canlı çeşitliliği"
+    },
+    {
+      "question": "Milli parkların temel amacı nedir?",
+      "options": [
+        "A) Sanayileşmeyi desteklemek",
+        "B) Doğal yaşamı ve peyzajı korumak",
+        "C) Şehirleşmeyi hızlandırmak",
+        "D) Tarımsal üretimi artırmak"
+      ],
+      "answer": "B) Doğal yaşamı ve peyzajı korumak"
+    },
+    {
+      "question": "Ağaçlandırmanın sağladığı faydalardan biri nedir?",
+      "options": [
+        "A) Hava kirliliğini artırmak",
+        "B) Toprak erozyonunu önlemek",
+        "C) Su kaynaklarını tüketmek",
+        "D) Karbondioksit salımını artırmak"
+      ],
+      "answer": "B) Toprak erozyonunu önlemek"
+    },
+    {
+      "question": "'Eko-dostu' ifadesi ne anlama gelir?",
+      "options": [
+        "A) Doğaya zarar veren",
+        "B) Çevreye duyarlı ve zarar vermeyen",
+        "C) Ekonomik olmayan",
+        "D) Yavaş tüketim"
+      ],
+      "answer": "B) Çevreye duyarlı ve zarar vermeyen"
+    },
+    {
+      "question": "Plastik atıkları azaltmanın etkili yollarından biri nedir?",
+      "options": [
+        "A) Tek kullanımlık ürünlerin tercih edilmesi",
+        "B) Tekrar kullanılabilir ürünlerin kullanılması",
+        "C) Atıkların doğaya atılması",
+        "D) Ambalaj miktarının artırılması"
+      ],
+      "answer": "B) Tekrar kullanılabilir ürünlerin kullanılması"
+    },
+    {
+      "question": "Kompostlama nedir?",
+      "options": [
+        "A) Organik atıkların doğal gübreye dönüştürülmesi",
+        "B) Atıkların yakılması",
+        "C) Plastik atıkların geri kazanılması",
+        "D) Kimyasal işlemle atıkların bertaraf edilmesi"
+      ],
+      "answer": "A) Organik atıkların doğal gübreye dönüştürülmesi"
+    },
+    {
+      "question": "Doğal su arıtma yöntemlerinden biri hangisidir?",
+      "options": [
+        "A) Kimyasal dezenfeksiyon",
+        "B) Kum ve çakıl filtresi kullanımı",
+        "C) Sanayi atıklarının karıştırılması",
+        "D) Ters ozmoz sistemi"
+      ],
+      "answer": "B) Kum ve çakıl filtresi kullanımı"
+    }
+  ],
+  "medium": [
+    {
+      "question": "Ormansızlaşma iklim değişikliğine nasıl katkıda bulunur?",
+      "options": [
+        "A) Karbon emilimini artırır",
+        "B) Depolanmış karbonun atmosfere salınmasına neden olur",
+        "C) Hava kirliliğini azaltır",
+        "D) Sıcaklıkları düşürür"
+      ],
+      "answer": "B) Depolanmış karbonun atmosfere salınmasına neden olur"
+    },
+    {
+      "question": "Sulak alanların ekosistemdeki rolü nedir?",
+      "options": [
+        "A) Sadece su deposu olmak",
+        "B) Doğal su filtresi görevi görüp habitat sağlamaktır",
+        "C) Sel riskini artırmak",
+        "D) Toprak erozyonuna yol açmak"
+      ],
+      "answer": "B) Doğal su filtresi görevi görüp habitat sağlamaktır"
+    },
+    {
+      "question": "Asit yağmurunun başlıca nedeni nedir?",
+      "options": [
+        "A) Karbon monoksit emisyonları",
+        "B) Kükürt dioksit ve azot oksitlerinin atmosfere salınması",
+        "C) Metan emisyonları",
+        "D) Ozon tabakasının incelmesi"
+      ],
+      "answer": "B) Kükürt dioksit ve azot oksitlerinin atmosfere salınması"
+    },
+    {
+      "question": "Biyoçeşitlilik açısından 'sıcak nokta' ifadesi neyi tanımlar?",
+      "options": [
+        "A) Düşük tür çeşitliliğine sahip bölgeler",
+        "B) Yüksek tür zenginliği ve endemikliğe sahip, tehlike altında olan bölgeler",
+        "C) Yüksek sıcaklık bölgesini",
+        "D) Büyük çöl alanlarını"
+      ],
+      "answer": "B) Yüksek tür zenginliği ve endemikliğe sahip, tehlike altında olan bölgeler"
+    },
+    {
+      "question": "Ağaçların terlemesi (transpirasyon) su döngüsünde hangi aşamayı etkiler?",
+      "options": [
+        "A) Yağış",
+        "B) Buharlaşma",
+        "C) Yoğunlaşma",
+        "D) Kar yağışı"
+      ],
+      "answer": "B) Buharlaşma"
+    },
+    {
+      "question": "Paris Anlaşması'nın önemi nedir?",
+      "options": [
+        "A) Fosil yakıt kullanımını teşvik eder",
+        "B) Küresel iklim değişikliğiyle mücadelede uluslararası işbirliğini artırır",
+        "C) Sadece ekonomik konuları ele alır",
+        "D) Sınai üretimi destekler"
+      ],
+      "answer": "B) Küresel iklim değişikliğiyle mücadelede uluslararası işbirliğini artırır"
+    },
+    {
+      "question": "Kent ısı adaları şehir iklimini nasıl etkiler?",
+      "options": [
+        "A) Şehir içindeki sıcaklıkları düşürür",
+        "B) Yerel sıcaklıkları artırır",
+        "C) Rüzgar hızlarını yükseltir",
+        "D) Yağış miktarını artırır"
+      ],
+      "answer": "B) Yerel sıcaklıkları artırır"
+    },
+    {
+      "question": "Karbon yutağı nedir?",
+      "options": [
+        "A) Karbon salım kaynağı",
+        "B) Atmosfere salınan karbonu depolayan sistem",
+        "C) Fosil yakıt rezervi",
+        "D) Karbonun oluşum süreci"
+      ],
+      "answer": "B) Atmosfere salınan karbonu depolayan sistem"
+    },
+    {
+      "question": "Aşırı avlanmanın olumsuz etkilerinden biri nedir?",
+      "options": [
+        "A) Balık popülasyonunun artması",
+        "B) Ekosistem dengesinin bozulması",
+        "C) Deniz suyunun temizlenmesi",
+        "D) Okyanusların genişlemesi"
+      ],
+      "answer": "B) Ekosistem dengesinin bozulması"
+    },
+    {
+      "question": "Yabancı türler yerli ekosistemleri nasıl etkiler?",
+      "options": [
+        "A) Yerli türlerle rekabet ederek çeşitliliği azaltır",
+        "B) Her zaman faydalı olur",
+        "C) Toprak verimliliğini artırır",
+        "D) Su kaynaklarını zenginleştirir"
+      ],
+      "answer": "A) Yerli türlerle rekabet ederek çeşitliliği azaltır"
+    },
+    {
+      "question": "Jeomühendislik kavramı neyi ifade eder?",
+      "options": [
+        "A) Doğal afetleri artıran yöntemler",
+        "B) İklim değişikliğine müdahale amacıyla yapılan mühendislik uygulamalarını",
+        "C) İnşaat teknolojilerini",
+        "D) Tarım arazilerini dönüştürme yöntemlerini"
+      ],
+      "answer": "B) İklim değişikliğine müdahale amacıyla yapılan mühendislik uygulamalarını"
+    },
+    {
+      "question": "Artan karbondioksit seviyeleri bitkiler üzerinde ne gibi bir etki yapar?",
+      "options": [
+        "A) Fotosentezi tamamen durdurur",
+        "B) Fotosentezi bir dereceye kadar artırabilir",
+        "C) Bitki büyümesini engeller",
+        "D) Bitkilerin su tüketimini artırır"
+      ],
+      "answer": "B) Fotosentezi bir dereceye kadar artırabilir"
+    },
+    {
+      "question": "Ağaçlandırma, atmosferdeki karbon miktarını nasıl etkiler?",
+      "options": [
+        "A) Karbon salımını artırır",
+        "B) Karbon tutulmasını destekler",
+        "C) Karbon üretimini durdurur",
+        "D) Hiçbir etkisi yoktur"
+      ],
+      "answer": "B) Karbon tutulmasını destekler"
+    },
+    {
+      "question": "Okyanuslar iklim düzenlemesinde hangi rolü oynar?",
+      "options": [
+        "A) Sadece ısı yayan",
+        "B) Isıyı depolayarak ve salarak iklimi dengeler",
+        "C) Yalnızca canlı yaşamı destekler",
+        "D) Sadece kirlilik barındırır"
+      ],
+      "answer": "B) Isıyı depolayarak ve salarak iklimi dengeler"
+    },
+    {
+      "question": "Mercan beyazlamasının temel nedeni nedir?",
+      "options": [
+        "A) Su kirliliği",
+        "B) Yüksek deniz suyu sıcaklıkları",
+        "C) Aşırı besin tüketimi",
+        "D) Deniz tuzluluğunun artması"
+      ],
+      "answer": "B) Yüksek deniz suyu sıcaklıkları"
+    },
+    {
+      "question": "Elektrikli araçların çevreye sağladığı temel fayda nedir?",
+      "options": [
+        "A) Sıfır egzoz emisyonu",
+        "B) Artan yakıt tüketimi",
+        "C) Hızlı şarj süreleri",
+        "D) Düşük menzil"
+      ],
+      "answer": "A) Sıfır egzoz emisyonu"
+    },
+    {
+      "question": "Sürdürülebilir tarım ne demektir?",
+      "options": [
+        "A) Sadece verimliliği artıran tarım",
+        "B) Gelecek nesilleri riske atmadan üretim yapan tarım",
+        "C) Kimyasal gübre kullanımını artıran tarım",
+        "D) Geleneksel yöntemlerden sapmayı"
+      ],
+      "answer": "B) Gelecek nesilleri riske atmadan üretim yapan tarım"
+    },
+    {
+      "question": "Donmuş toprakların (permafrost) erimesi ne gibi etkilere yol açar?",
+      "options": [
+        "A) Atmosfere hapsolmuş karbondioksitin salınması",
+        "B) Yeraltı sularının artması",
+        "C) Toprak verimliliğinin artması",
+        "D) Su döngüsünün durması"
+      ],
+      "answer": "A) Atmosfere hapsolmuş karbondioksitin salınması"
+    },
+    {
+      "question": "Deniz seviyelerinin yükselmesinin ana nedeni nedir?",
+      "options": [
+        "A) Okyanus akıntıları",
+        "B) Buzulların erimesi",
+        "C) Volkanik faaliyetler",
+        "D) Yağış artışı"
+      ],
+      "answer": "B) Buzulların erimesi"
+    },
+    {
+      "question": "Çevresel etki değerlendirmeleri neden önemlidir?",
+      "options": [
+        "A) Yatırım maliyetlerini artırır",
+        "B) Projelerin çevreye olan etkilerini önceden tahmin etmeye yarar",
+        "C) İnşaat süresini uzatır",
+        "D) Sadece raporlamadan ibarettir"
+      ],
+      "answer": "B) Projelerin çevreye olan etkilerini önceden tahmin etmeye yarar"
+    }
+  ],
+  "hard": [
+    {
+      "question": "Albedo etkisi nedir ve Dünya'nın iklimini nasıl etkiler?",
+      "options": [
+        "A) Yüzeyin ısıyı emmesi",
+        "B) Yüzeyin ışığı yansıtma oranının iklimi etkilemesi",
+        "C) Bitkilerin fotosentez oranını artırması",
+        "D) Deniz seviyesini düşürmesi"
+      ],
+      "answer": "B) Yüzeyin ışığı yansıtma oranının iklimi etkilemesi"
+    },
+    {
+      "question": "Pozitif geri besleme döngüleri küresel ısınmayı nasıl şiddetlendirir?",
+      "options": [
+        "A) Isınmayı yavaşlatır",
+        "B) İlk değişiklikleri artırarak daha fazla ısınmaya neden olur",
+        "C) Hiçbir etkisi yoktur",
+        "D) İklimi stabilize eder"
+      ],
+      "answer": "B) İlk değişiklikleri artırarak daha fazla ısınmaya neden olur"
+    },
+    {
+      "question": "Kara karbonun (black carbon) iklim değişikliğindeki rolü nedir?",
+      "options": [
+        "A) Atmosferi soğutur",
+        "B) Güneş ışığını absorbe ederek ısınmaya yol açar",
+        "C) Bitki büyümesini durdurur",
+        "D) Sadece endüstriyel atıklarda bulunur"
+      ],
+      "answer": "B) Güneş ışığını absorbe ederek ısınmaya yol açar"
+    },
+    {
+      "question": "Okyanus asitlenmesi nasıl gerçekleşir ve deniz yaşamını nasıl etkiler?",
+      "options": [
+        "A) Okyanus soğuduğunda oluşur, canlılara fayda sağlar",
+        "B) Artan CO2'nin suda çözünmesiyle oluşur ve mercanlar gibi canlılara zarar verir",
+        "C) Tuzluluğun artmasıyla gerçekleşir",
+        "D) Balık popülasyonunu artırır"
+      ],
+      "answer": "B) Artan CO2'nin suda çözünmesiyle oluşur ve mercanlar gibi canlılara zarar verir"
+    },
+    {
+      "question": "Gezegen sınırları kavramı neyi ifade eder?",
+      "options": [
+        "A) İnsan faaliyetlerinin güvenli sınırlarını",
+        "B) Dünya kaynakları ve çevresel sistemlerin sürdürülebilir çalışabileceği limitleri",
+        "C) Ülkeler arası sınırları",
+        "D) Coğrafi bölgelerin doğal sınırlarını"
+      ],
+      "answer": "B) Dünya kaynakları ve çevresel sistemlerin sürdürülebilir çalışabileceği limitleri"
+    },
+    {
+      "question": "İklim sistemlerindeki 'eşik nokta' (tipping point) örneği hangisidir?",
+      "options": [
+        "A) Yavaş iklim değişimi",
+        "B) Grönland buz tabakasının hızla erimesi",
+        "C) Mevsimsel yağış düzeni",
+        "D) Gündüz ve gece süresinin eşitlenmesi"
+      ],
+      "answer": "B) Grönland buz tabakasının hızla erimesi"
+    },
+    {
+      "question": "Metan klatratlarının erimesi atmosfere nasıl etki eder?",
+      "options": [
+        "A) Metanı depolamaya devam eder",
+        "B) Atmosfere büyük miktarda metan salarak ısınmayı hızlandırır",
+        "C) Metanı CO2'ye dönüştürür",
+        "D) Hiçbir etkisi yoktur"
+      ],
+      "answer": "B) Atmosfere büyük miktarda metan salarak ısınmayı hızlandırır"
+    },
+    {
+      "question": "Hükümetlerarası İklim Değişikliği Paneli (IPCC) raporlarının önemi nedir?",
+      "options": [
+        "A) Sadece teorik bilgiler sunar",
+        "B) İklim değişikliği konusunda kapsamlı bilimsel değerlendirmeler yapar ve politika oluşturmayı destekler",
+        "C) Ekonomik verilerle sınırlıdır",
+        "D) Yerel düzeyde etkisizdir"
+      ],
+      "answer": "B) İklim değişikliği konusunda kapsamlı bilimsel değerlendirmeler yapar ve politika oluşturmayı destekler"
+    },
+    {
+      "question": "Aerosoller Dünya'nın radyatif dengesini nasıl etkiler?",
+      "options": [
+        "A) Yalnızca soğutma etkisi yapar",
+        "B) Hem güneş ışığını yansıtarak soğutur hem de ısı absorbe ederek ısıtır",
+        "C) Sadece ısıtma etkisi gösterir",
+        "D) Radyatif dengeye etkisi yoktur"
+      ],
+      "answer": "B) Hem güneş ışığını yansıtarak soğutur hem de ısı absorbe ederek ısıtır"
+    },
+    {
+      "question": "Arazi kullanımı değişiklikleri (örneğin, kentleşme) iklimi nasıl etkiler?",
+      "options": [
+        "A) Hiçbir etkisi olmaz",
+        "B) Yüzey özelliklerini değiştirir ve kentsel ısı adası etkisi oluşturur",
+        "C) Sadece doğal alanları genişletir",
+        "D) Atmosferdeki oksijen oranını artırır"
+      ],
+      "answer": "B) Yüzey özelliklerini değiştirir ve kentsel ısı adası etkisi oluşturur"
+    },
+    {
+      "question": "İklim değişikliğinin küresel gıda güvenliği üzerindeki potansiyel etkileri nelerdir?",
+      "options": [
+        "A) Tarımsal verimliliği artırır",
+        "B) Üretimde aksamalara ve gıda kıtlığına yol açabilir",
+        "C) Yalnızca ihracatı etkiler",
+        "D) Hiçbir etkisi yoktur"
+      ],
+      "answer": "B) Üretimde aksamalara ve gıda kıtlığına yol açabilir"
+    },
+    {
+      "question": "İklim değişikliği bulaşıcı hastalıkların yayılmasını nasıl etkiler?",
+      "options": [
+        "A) Hastalık vektörlerinin dağılımını genişleterek yayılmayı artırır",
+        "B) Vektörleri ortadan kaldırır",
+        "C) Sadece su kaynaklarını etkiler",
+        "D) Hastalıkların yayılmasını engeller"
+      ],
+      "answer": "A) Hastalık vektörlerinin dağılımını genişleterek yayılmayı artırır"
+    },
+    {
+      "question": "Kriyosfer (buz tabakaları) Dünya'nın iklim düzenlemesinde ne rol oynar?",
+      "options": [
+        "A) Güneş ışığını emer",
+        "B) Işığı yansıtarak soğutma sağlar",
+        "C) Atmosferden karbon dioksiti emer",
+        "D) Sadece deniz seviyesini etkiler"
+      ],
+      "answer": "B) Işığı yansıtarak soğutma sağlar"
+    },
+    {
+      "question": "Atmosfere salınan artan CO2 seviyeleri en çok hangi insan faaliyetleriyle ilişkilidir?",
+      "options": [
+        "A) Ormanların korunması",
+        "B) Sanayi ve fosil yakıt kullanımı",
+        "C) Güneş enerjisi kullanımı",
+        "D) Atık geri dönüşümü"
+      ],
+      "answer": "B) Sanayi ve fosil yakıt kullanımı"
+    },
+    {
+      "question": "İklim modelleri gelecekteki iklim senaryolarını anlamada nasıl yardımcı olur?",
+      "options": [
+        "A) Geleceği kesin olarak tahmin eder",
+        "B) İklim sisteminin farklı bileşenleri arasındaki etkileşimleri simüle eder",
+        "C) Sadece geçmiş verileri analiz eder",
+        "D) Ekonomik öngörülerde bulunur"
+      ],
+      "answer": "B) İklim sisteminin farklı bileşenleri arasındaki etkileşimleri simüle eder"
+    },
+    {
+      "question": "Torf bataklıklarının (peatlands) çevresel önemi nedir?",
+      "options": [
+        "A) Yüksek miktarda karbon depolarlar",
+        "B) Enerji üretiminde kullanılırlar",
+        "C) Tarımsal alana dönüştürülürler",
+        "D) Sadece yerel su kaynağıdırlar"
+      ],
+      "answer": "A) Yüksek miktarda karbon depolarlar"
+    },
+    {
+      "question": "Ötrofikasyonun (eutrophication) su ekosistemlerine etkisi nedir?",
+      "options": [
+        "A) Su kalitesini artırır",
+        "B) Aşırı bitki büyümesi ve oksijen eksikliğine yol açar",
+        "C) Balık popülasyonunu artırır",
+        "D) Su sıcaklığını düşürür"
+      ],
+      "answer": "B) Aşırı bitki büyümesi ve oksijen eksikliğine yol açar"
+    },
+    {
+      "question": "Çevresel adalet kavramı neyi ifade eder?",
+      "options": [
+        "A) Sadece ekonomik kalkınmayı",
+        "B) Tüm toplulukların eşit çevresel fayda ve zararlardan korunmasını",
+        "C) Yalnızca büyük şehirlerin korunmasını",
+        "D) Çevre politikalarının azaltılmasını"
+      ],
+      "answer": "B) Tüm toplulukların eşit çevresel fayda ve zararlardan korunmasını"
+    },
+    {
+      "question": "Döngüsel ekonomi kavramı neyi tanımlar?",
+      "options": [
+        "A) Ürünlerin sadece bir kez kullanılması",
+        "B) Atıkları en aza indirip kaynakların sürekli kullanıldığı ekonomik sistemi",
+        "C) Sadece geri dönüşüme dayalı ekonomiyi",
+        "D) Üretim ve atık arasında hiçbir bağlantı kurulmayan sistemi"
+      ],
+      "answer": "B) Atıkları en aza indirip kaynakların sürekli kullanıldığı ekonomik sistemi"
+    },
+    {
+      "question": "İklim değişikliğinin okyanus dolaşım paternerini nasıl etkilediği konusunda ne söylenebilir?",
+      "options": [
+        "A) Dolaşımı tamamen durdurur",
+        "B) Okyanus akıntılarında değişikliklere yol açarak küresel iklimi etkiler",
+        "C) Sadece kıyı bölgelerini etkiler",
+        "D) Dolaşım paternerini güçlendirir"
+      ],
+      "answer": "B) Okyanus akıntılarında değişikliklere yol açarak küresel iklimi etkiler"
+    }
+  ]
+}
