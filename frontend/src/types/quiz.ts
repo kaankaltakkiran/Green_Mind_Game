@@ -23,6 +23,8 @@ export interface GameState {
   isQuestionActive: boolean
   selectedAnswer: string | null
   timer: number
+  lastAnswerCorrect: boolean | null
+  isTransitioning: boolean
 }
 
 export interface QuizData {

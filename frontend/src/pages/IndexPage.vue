@@ -9,7 +9,11 @@
               Sıradaki Grup: {{ currentGroup?.name || 'Bilinmiyor' }}
             </h3>
             <div class="text-center text-subtitle1">
-              Soru {{ (currentGroup?.currentQuestion || 0) + 1 }} / {{ state.totalQuestions }}
+              Soru {{ (currentGroup?.currentQuestion || 0) + 1 }} /
+              {{ currentGroup?.questions.length || 0 }}
+            </div>
+            <div class="text-center text-subtitle2 q-mb-sm">
+              Her grup tüm sorularını tamamladıktan sonra sıra diğer gruba geçecektir.
             </div>
             <div class="timer text-center text-h6" :class="{ 'text-red': state.timer < 10 }">
               Süre: {{ state.timer }} saniye
@@ -36,20 +40,24 @@
                   clickable
                   v-ripple
                   @click="handleAnswer(option)"
-                  :disable="!state.isQuestionActive"
+                  :disable="!state.isQuestionActive || state.isTransitioning"
                   class="option-item q-my-sm"
                   :class="{
-                    'correct-answer': !state.isQuestionActive && option === currentQuestion.answer,
+                    'correct-answer':
+                      !state.isQuestionActive &&
+                      !state.isTransitioning &&
+                      option === currentQuestion.answer,
                     'wrong-answer':
                       !state.isQuestionActive &&
+                      !state.isTransitioning &&
                       option === state.selectedAnswer &&
-                      state.selectedAnswer !== currentQuestion.answer,
+                      option !== currentQuestion.answer,
                   }"
                 >
                   <q-item-section>
                     <q-item-label class="text-subtitle1">{{ option }}</q-item-label>
                   </q-item-section>
-                  <q-item-section v-if="!state.isQuestionActive" side>
+                  <q-item-section v-if="!state.isQuestionActive && !state.isTransitioning" side>
                     <q-icon
                       v-if="option === currentQuestion.answer"
                       name="check_circle"
@@ -70,23 +78,26 @@
             </q-card-section>
 
             <div
-              v-if="!state.isQuestionActive && currentQuestion"
+              v-if="
+                !state.isQuestionActive &&
+                !state.isTransitioning &&
+                currentQuestion &&
+                state.selectedAnswer !== null
+              "
               class="feedback q-mt-md text-center"
             >
               <div
                 class="text-h6 q-pa-md rounded-borders"
                 :class="{
-                  'bg-green-2 text-positive': state.selectedAnswer === currentQuestion.answer,
-                  'bg-red-2 text-negative': state.selectedAnswer !== currentQuestion.answer,
+                  'bg-green-2 text-positive': state.lastAnswerCorrect === true,
+                  'bg-red-2 text-negative': state.lastAnswerCorrect === false,
                 }"
               >
-                <template v-if="state.selectedAnswer === currentQuestion.answer">
+                <template v-if="state.lastAnswerCorrect === true">
                   <div class="text-h5">🎉 Doğru! 🎉</div>
-                  <div class="text-subtitle1 q-mt-sm text-green-10">
-                    +10 puan + Zaman bonusu: {{ Math.floor(state.timer / 2) }} puan
-                  </div>
+                  <div class="text-subtitle1 q-mt-sm text-green-10">+10 puan</div>
                 </template>
-                <template v-else>
+                <template v-else-if="state.lastAnswerCorrect === false">
                   <div class="text-h5">😔 Yanlış!</div>
                   <div class="text-subtitle1 q-mt-sm text-red-10">
                     Doğru cevap: {{ currentQuestion.answer }}
@@ -261,6 +272,23 @@
           </q-card-section>
         </q-card>
       </q-dialog>
+
+      <!-- Correct Answer Overlay -->
+      <q-dialog
+        v-model="showCorrectAnswerOverlay"
+        persistent
+        transition-show="scale"
+        transition-hide="scale"
+      >
+        <q-card class="correct-answer-overlay text-center">
+          <q-card-section class="column items-center q-pa-lg">
+            <div class="correct-icon">✓</div>
+            <div class="text-h4 text-positive q-mt-md">Doğru Cevap!</div>
+            <div class="text-subtitle1 q-mt-md text-weight-medium">Tebrikler!</div>
+            <div class="text-h6 text-primary q-mt-sm">+10 puan kazandınız</div>
+          </q-card-section>
+        </q-card>
+      </q-dialog>
     </div>
   </q-page>
 </template>
@@ -287,6 +315,7 @@ const currentGroupName = ref('')
 const groupCount = ref(2)
 const totalQuestions = ref(9)
 const showWrongAnswerOverlay = ref(false)
+const showCorrectAnswerOverlay = ref(false)
 
 // Initialize game with 3 questions per difficulty level (9 total questions)
 initializeGame(2, 3)
@@ -361,17 +390,26 @@ const difficultyText = computed(() => {
 })
 
 const handleAnswer = (answer: string) => {
-  if (!currentQuestion.value) return
+  if (!currentQuestion.value || state.value.isTransitioning) return
 
   // Log for debugging
   console.log('Handling answer:', answer)
   console.log('Current question:', currentQuestion.value.question)
   console.log('Correct answer:', currentQuestion.value.answer)
 
+  // Check if the answer is correct before submitting
+  const isCorrect = answer === currentQuestion.value.answer
+  console.log('Is answer correct?', isCorrect)
+
   submitAnswer(answer)
 
-  // Only show wrong answer overlay if the answer is incorrect
-  if (currentQuestion.value && answer !== currentQuestion.value.answer) {
+  // Show the appropriate overlay based on whether the answer is correct or not
+  if (isCorrect) {
+    showCorrectAnswerOverlay.value = true
+    setTimeout(() => {
+      showCorrectAnswerOverlay.value = false
+    }, 1500) // Hide after 1.5 seconds
+  } else {
     showWrongAnswerOverlay.value = true
     setTimeout(() => {
       showWrongAnswerOverlay.value = false
@@ -477,6 +515,26 @@ const handleAnswer = (answer: string) => {
   }
 }
 
+.correct-answer-overlay {
+  background: rgba(255, 255, 255, 0.98);
+  border: none;
+  border-radius: 16px;
+  min-width: 320px;
+  box-shadow: 0 4px 20px rgba(76, 175, 80, 0.25);
+
+  .correct-icon {
+    font-size: 100px;
+    color: #4caf50;
+    animation: bounce 0.5s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+    text-shadow: 0 4px 8px rgba(76, 175, 80, 0.3);
+    margin: 10px 0;
+  }
+
+  .q-card-section {
+    background: linear-gradient(180deg, rgba(76, 175, 80, 0.1) 0%, rgba(76, 175, 80, 0) 100%);
+  }
+}
+
 @keyframes shake {
   10%,
   90% {
@@ -497,6 +555,22 @@ const handleAnswer = (answer: string) => {
   40%,
   60% {
     transform: translate3d(6px, 0, 0);
+  }
+}
+
+@keyframes bounce {
+  0%,
+  20%,
+  50%,
+  80%,
+  100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-30px);
+  }
+  60% {
+    transform: translateY(-15px);
   }
 }
 </style>

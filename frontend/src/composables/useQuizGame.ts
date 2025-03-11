@@ -12,6 +12,8 @@ export const useQuizGame = () => {
     isQuestionActive: false,
     selectedAnswer: null,
     timer: 0,
+    lastAnswerCorrect: null,
+    isTransitioning: false,
   })
 
   const timerInterval = ref<number | null>(null)
@@ -70,9 +72,11 @@ export const useQuizGame = () => {
     // Debug logs
     console.log('Selected answer:', answer)
     console.log('Correct answer:', currentQuestion.value.answer)
+    console.log('Question:', currentQuestion.value.question)
 
-    // Check if the answer is correct
+    // Check if the answer is correct - store this in the state
     const isCorrect = answer === currentQuestion.value.answer
+    state.value.lastAnswerCorrect = isCorrect
 
     if (isCorrect) {
       console.log('✅ Answer is correct!')
@@ -86,7 +90,13 @@ export const useQuizGame = () => {
       // No points for wrong answer
     }
 
-    nextTurn()
+    // Set transitioning state to true
+    state.value.isTransitioning = true
+
+    // Wait for UI to update before moving to next turn
+    setTimeout(() => {
+      nextTurn()
+    }, 2500)
   }
 
   const initializeGame = (groupCount: number, questionsPerDifficulty: number) => {
@@ -109,6 +119,8 @@ export const useQuizGame = () => {
       isQuestionActive: false,
       selectedAnswer: null,
       timer: 0,
+      lastAnswerCorrect: null,
+      isTransitioning: false,
     }
   }
 
@@ -134,9 +146,16 @@ export const useQuizGame = () => {
   }
 
   const startQuestion = () => {
+    // Clear any previous state
     state.value.isQuestionActive = true
     state.value.selectedAnswer = null
+    state.value.lastAnswerCorrect = null
     state.value.timer = state.value.timePerQuestion
+    state.value.isTransitioning = false
+
+    // Log the current question for debugging
+    console.log('Starting new question:', currentQuestion.value?.question)
+    console.log('Current group:', currentGroup.value?.name)
 
     timerInterval.value = window.setInterval(() => {
       if (state.value.timer > 0) {
@@ -156,29 +175,34 @@ export const useQuizGame = () => {
   }
 
   const nextTurn = () => {
+    // Reset the answer state
+    state.value.lastAnswerCorrect = null
+    state.value.selectedAnswer = null
+
     const group = state.value.groups[state.value.currentGroupIndex]
     if (!group) return
 
+    // Increment the current question for this group
     group.currentQuestion++
 
+    // Check if this group has completed all their questions
     if (group.currentQuestion >= group.questions.length) {
+      // Move to the next group
       state.value.currentGroupIndex++
 
+      // Check if all groups have completed their questions
       if (state.value.currentGroupIndex >= state.value.groups.length) {
+        // Game over
         state.value.isGameStarted = false
+        state.value.isTransitioning = false
         return
       }
     }
 
-    // Ensure the current group is valid and has questions left
-    let nextGroup = state.value.groups[state.value.currentGroupIndex]
-    while (nextGroup && nextGroup.currentQuestion >= nextGroup.questions.length) {
-      state.value.currentGroupIndex =
-        (state.value.currentGroupIndex + 1) % state.value.groups.length
-      nextGroup = state.value.groups[state.value.currentGroupIndex]
-    }
-
-    setTimeout(startQuestion, 2000)
+    // Start the next question after a delay
+    setTimeout(() => {
+      startQuestion()
+    }, 1000)
   }
 
   const isGameOver = computed(() => {
