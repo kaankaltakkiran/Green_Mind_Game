@@ -21,7 +21,15 @@ export const useQuizGame = () => {
   const currentQuestion = computed(() => {
     const group = currentGroup.value
     if (!group) return null
-    return group.questions[group.currentQuestion] || null
+
+    // Get the current question index for this group
+    const questionIndex = group.currentQuestion
+
+    // Make sure the question exists in this group's questions array
+    if (questionIndex < 0 || questionIndex >= group.questions.length) return null
+
+    // Return the specific question for this group
+    return group.questions[questionIndex]
   })
 
   const getRandomQuestions = (questionsPerDifficulty: number): Question[] => {
@@ -30,13 +38,55 @@ export const useQuizGame = () => {
 
     difficulties.forEach((difficulty) => {
       const questions = (quizData as QuizData)[difficulty]
-      const shuffled = [...questions].map((q) => ({ ...q, difficulty }))
+      // Create a deep copy of questions and add difficulty
+      const shuffled = [...questions].map((q) => ({
+        ...q,
+        difficulty,
+        // Ensure we're creating a new object for each question
+        options: [...q.options],
+      }))
+
+      // Take random questions for this difficulty
       selectedQuestions.push(
         ...shuffled.sort(() => Math.random() - 0.5).slice(0, questionsPerDifficulty),
       )
     })
 
+    // Randomize the order of all selected questions
     return selectedQuestions.sort(() => Math.random() - 0.5)
+  }
+
+  const submitAnswer = (answer: string) => {
+    if (!state.value.isQuestionActive || !currentQuestion.value) return
+
+    if (timerInterval.value) {
+      clearInterval(timerInterval.value)
+    }
+
+    // Store the selected answer
+    state.value.selectedAnswer = answer
+    state.value.isQuestionActive = false
+
+    // Debug logs
+    console.log('Selected answer:', answer)
+    console.log('Correct answer:', currentQuestion.value.answer)
+
+    // Check if the answer is correct
+    const isCorrect = answer === currentQuestion.value.answer
+
+    if (isCorrect) {
+      console.log('✅ Answer is correct!')
+      // Award 10 points for correct answer
+      const group = state.value.groups[state.value.currentGroupIndex]
+      if (group) {
+        group.score += 10
+      }
+    } else {
+      console.log('❌ Answer is wrong!')
+      // No points for wrong answer
+    }
+
+    nextTurn()
   }
 
   const initializeGame = (groupCount: number, questionsPerDifficulty: number) => {
@@ -63,7 +113,10 @@ export const useQuizGame = () => {
   }
 
   const addGroup = (name: string) => {
+    // Calculate questions per difficulty based on total questions
     const questionsPerDifficulty = Math.floor(state.value.totalQuestions / 3)
+
+    // Get a unique set of random questions for this group
     const groupQuestions = getRandomQuestions(questionsPerDifficulty)
 
     state.value.groups.push({
@@ -102,83 +155,27 @@ export const useQuizGame = () => {
     nextTurn()
   }
 
-  const submitAnswer = (answer: string) => {
-    if (!state.value.isQuestionActive || !currentQuestion.value) return
-
-    if (timerInterval.value) {
-      clearInterval(timerInterval.value)
-    }
-
-    // Store the selected answer
-    state.value.selectedAnswer = answer
-    state.value.isQuestionActive = false
-
-    // Debug logs
-    console.log('Selected answer:', answer)
-    console.log('Correct answer:', currentQuestion.value.answer)
-    console.log('Direct comparison:', answer === currentQuestion.value.answer)
-    console.log('Selected answer length:', answer.length)
-    console.log('Correct answer length:', currentQuestion.value.answer.length)
-
-    // Compare character by character
-    let mismatch = false
-    for (let i = 0; i < Math.max(answer.length, currentQuestion.value.answer.length); i++) {
-      if (answer[i] !== currentQuestion.value.answer[i]) {
-        console.log(`Mismatch at position ${i}:`, {
-          selected: answer[i],
-          correct: currentQuestion.value.answer[i],
-        })
-        mismatch = true
-      }
-    }
-
-    // Check if the answer is correct
-    const isCorrect = !mismatch && answer === currentQuestion.value.answer
-
-    if (isCorrect) {
-      console.log('✅ Answer is correct!')
-      const timeBonus = Math.floor(state.value.timer / 2)
-      const difficultyBonus =
-        {
-          easy: 5,
-          medium: 10,
-          hard: 15,
-        }[currentQuestion.value.difficulty] || 0
-
-      const group = state.value.groups[state.value.currentGroupIndex]
-      if (group) {
-        group.score += 10 + timeBonus + difficultyBonus
-      }
-    } else {
-      console.log('❌ Answer is wrong!')
-    }
-
-    nextTurn()
-  }
-
   const nextTurn = () => {
     const group = state.value.groups[state.value.currentGroupIndex]
     if (!group) return
 
     group.currentQuestion++
 
-    if (group.currentQuestion >= state.value.totalQuestions) {
+    if (group.currentQuestion >= group.questions.length) {
       state.value.currentGroupIndex++
 
       if (state.value.currentGroupIndex >= state.value.groups.length) {
         state.value.isGameStarted = false
         return
       }
-    } else {
+    }
+
+    // Ensure the current group is valid and has questions left
+    let nextGroup = state.value.groups[state.value.currentGroupIndex]
+    while (nextGroup && nextGroup.currentQuestion >= nextGroup.questions.length) {
       state.value.currentGroupIndex =
         (state.value.currentGroupIndex + 1) % state.value.groups.length
-
-      let nextGroup = state.value.groups[state.value.currentGroupIndex]
-      while (nextGroup && nextGroup.currentQuestion >= state.value.totalQuestions) {
-        state.value.currentGroupIndex =
-          (state.value.currentGroupIndex + 1) % state.value.groups.length
-        nextGroup = state.value.groups[state.value.currentGroupIndex]
-      }
+      nextGroup = state.value.groups[state.value.currentGroupIndex]
     }
 
     setTimeout(startQuestion, 2000)

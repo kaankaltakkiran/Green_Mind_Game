@@ -43,7 +43,7 @@
                     'wrong-answer':
                       !state.isQuestionActive &&
                       option === state.selectedAnswer &&
-                      option !== currentQuestion.answer,
+                      state.selectedAnswer !== currentQuestion.answer,
                   }"
                 >
                   <q-item-section>
@@ -57,7 +57,9 @@
                       size="md"
                     />
                     <q-icon
-                      v-else-if="option === state.selectedAnswer"
+                      v-else-if="
+                        option === state.selectedAnswer && option !== currentQuestion.answer
+                      "
                       name="cancel"
                       color="negative"
                       size="md"
@@ -359,7 +361,16 @@ const difficultyText = computed(() => {
 })
 
 const handleAnswer = (answer: string) => {
+  if (!currentQuestion.value) return
+
+  // Log for debugging
+  console.log('Handling answer:', answer)
+  console.log('Current question:', currentQuestion.value.question)
+  console.log('Correct answer:', currentQuestion.value.answer)
+
   submitAnswer(answer)
+
+  // Only show wrong answer overlay if the answer is incorrect
   if (currentQuestion.value && answer !== currentQuestion.value.answer) {
     showWrongAnswerOverlay.value = true
     setTimeout(() => {
@@ -400,6 +411,7 @@ const handleAnswer = (answer: string) => {
     margin: 8px 0;
     transition: all 0.3s ease;
     border: 2px solid transparent;
+    position: relative;
 
     &:hover {
       background: #e8f5e9;
@@ -461,7 +473,7 @@ const handleAnswer = (answer: string) => {
   }
 
   .q-card-section {
-    background: linear-gradient(to bottom, rgba(244, 67, 54, 0.05), transparent);
+    background: linear-gradient(180deg, rgba(244, 67, 54, 0.1) 0%, rgba(244, 67, 54, 0) 100%);
   }
 }
 
