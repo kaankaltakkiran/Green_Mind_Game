@@ -2,6 +2,46 @@
 
 An interactive web-based quiz game focused on environmental awareness and sustainability education.
 
+## 🇹🇷 Türkçe Açıklama
+
+### 🌍 Pangea Quiz - Çevre Bilinci Yarışması
+
+Pangea Quiz, çevre bilinci ve sürdürülebilirlik konularında farkındalık yaratmak amacıyla geliştirilmiş interaktif bir bilgi yarışması oyunudur. Bu oyun, eğlenceli bir rekabet ortamında çevre sorunları, sürdürülebilirlik ve ekoloji hakkında bilgi edinmenizi sağlar.
+
+### 🎮 Nasıl Oynanır?
+
+1. **Oyunu Başlatma:**
+
+   - Grup sayısını ve soru sayısını belirleyin (1-10 grup, 3-30 soru)
+   - Her gruba bir isim verin
+   - "Yarışmayı Başlat" butonuna tıklayın
+
+2. **Oyun Akışı:**
+
+   - Her grup sırayla tüm sorularını tamamlar
+   - Her soru için 30 saniye süre verilir
+   - Sorular zorluk seviyelerine göre (Kolay, Orta, Zor) kategorize edilmiştir
+   - Doğru cevap verdiğinizde 10 puan kazanırsınız
+   - Yanlış cevap verdiğinizde puan kazanamazsınız
+
+3. **Sonuçlar:**
+   - Tüm gruplar sorularını tamamladığında oyun sona erer
+   - En yüksek puanı alan grup(lar) kazanan olarak ilan edilir
+   - Tüm grupların puanları görüntülenir
+
+### 🌱 Oyunun Amacı
+
+Bu oyun, çevre sorunları hakkında farkındalık yaratmak, sürdürülebilirlik konusunda bilgi paylaşımını teşvik etmek ve ekolojik dengenin önemini vurgulamak amacıyla tasarlanmıştır. Eğlenceli bir rekabet ortamında öğrenme sağlayarak, çevre bilincinin artmasına katkıda bulunmayı hedeflemektedir.
+
+### 💡 İpuçları
+
+- Soruları dikkatle okuyun
+- Sürenizi verimli kullanın
+- Zorluk seviyesi arttıkça sorular daha karmaşık hale gelir
+- Grup arkadaşlarınızla işbirliği yaparak doğru cevabı bulmaya çalışın
+
+---
+
 ## 🎯 Features
 
 - 🌍 Environmental awareness quiz with multiple-choice questions
