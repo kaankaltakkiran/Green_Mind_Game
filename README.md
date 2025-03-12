@@ -42,6 +42,10 @@ Bu oyun, çevre sorunları hakkında farkındalık yaratmak, sürdürülebilirli
 
 ---
 
+### 🌐 Pangea Web Site
+
+web site linki: https://green-mind-app.netlify.app/#/
+
 ## 🎯 Features
 
 - 🌍 Environmental awareness quiz with multiple-choice questions
